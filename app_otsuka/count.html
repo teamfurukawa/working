@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+    #messageForm {
+        margin-top: 15px;
+    }
+    </style>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+	<form>
+		<div class="form-group">
+			<table class="table table-bordered">
+				<thead>
+					<tr class="active">
+						<th>description</th>
+						<th>count</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+					    <th>Good</th>
+					    <td><p id="num1">0</p></td>
+					</tr>
+					<tr>
+					    <th>Boo</th>
+					    <td><p id="num2">0</p></td>
+					</tr>
+					<tr>
+					    <th>answerA</th>
+					    <td><p id="answerA">0</p></td>
+					</tr>
+					<tr>
+					    <th>answerB</th>
+					    <td><p id="answerB">0</p></td>
+					</tr>
+					<tr>
+					    <th>answerC</th>
+					    <td><p id="answerC">0</p></td>
+					</tr>
+					<tr>
+					    <th>answerD</th>
+					    <td><p id="answerD">0</p></td>
+					</tr>
+				</tbody>
+			</table>
+			<button type="button" class="btn btn-active" id="reset">reset</button>
+		</div>
+	</form>
+
+	
+    <script type="text/javascript">
+	    var ioSocket = io.connect( "http://52.91.193.38:8125" );
+	    
+	    // サーバーからのデータ受け取り処理
+        ioSocket.on( "connect", function() {} ); // 接続
+        ioSocket.on( "disconnect", function() {} ); // 切断
+
+		ioSocket.on( "s2c_button1", function( data )  { number1( data.value ) });
+		ioSocket.on( "s2c_button2", function( data )  { number2( data.value ) });
+		ioSocket.on( "s2c_answerA", function( data )  { answerA( data.value ) });
+		ioSocket.on( "s2c_answerB", function( data )  { answerB( data.value ) });
+		ioSocket.on( "s2c_answerC", function( data )  { answerC( data.value ) });
+		ioSocket.on( "s2c_answerD", function( data )  { answerD( data.value ) });
+		
+		$("#reset").click( function() {
+			ioSocket.emit( "c2s_reset" );
+		});
+		
+		function number1(number){
+			$('#num1').text(number);
+			if(number%10!=0){
+				var audio = new Audio("http://52.91.193.38:8125/coin");
+			}else{
+				var audio = new Audio("http://52.91.193.38:8125/1up");
+			}
+			audio.play();
+    	}
+    	
+    	function number2(number){
+    		$('#num2').text(number);
+			var audio = new Audio("http://52.91.193.38:8125/sound2");
+			audio.play();
+		}
+		
+		function answerA(number){
+			$('#answerA').text(number);
+		}
+		function answerB(number){
+			$('#answerB').text(number);
+		}
+		function answerC(number){
+			$('#answerC').text(number);
+		}
+		function answerD(number){
+			$('#answerD').text(number);
+		}
+		
+    </script>
+</body>
+</html>

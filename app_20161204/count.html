@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+    #messageForm {
+        margin-top: 15px;
+    }
+    </style>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+	<p id="num1">0</p>
+	<p id="num2">0</p>
+	
+    <script type="text/javascript">
+	    var ioSocket = io.connect( "http://52.91.193.38:8125" );
+
+    	ioSocket.on( "s2c_button1", function( data )  { number1( data.value ) });
+    	ioSocket.on( "s2c_button2", function( data )  { number2( data.value ) });
+    	
+		function number1(number){
+			$('#num1').text(number);
+			if(number%10!=0){
+				var audio = new Audio("http://52.91.193.38:8125/coin");
+			}else{
+				var audio = new Audio("http://52.91.193.38:8125/1up");
+			}
+			audio.play();
+    	}
+    	
+    	function number2(number){
+			var audio = new Audio("http://52.91.193.38:8125/sound2");
+			audio.play();
+			$('#num2').text(number);
+		}
+    </script>
+</body>
+</html>
