@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+    #messageForm {
+        margin-top: 15px;
+    }
+    </style>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+	<p id="num1">0</p>
+	
+    <script type="text/javascript">
+ 
+    var ioSocket = io.connect( "http://54.146.177.128:8125" );
+    // サーバーからクライアントへの送り返し
+//    ioSocket.on( "s2c_message", function( data ) {
+//	var num = data.value;
+//	console.log(num);
+//	$('#num1').text(num);
+  //  });
+
+    ioSocket.on( "s2c_message", function( data )  { number( data.value ) });
+	function number(number){
+	
+	var audio = new Audio("http://54.146.177.128:8125/sound");
+    audio.play();
+	
+	$('#num1').text(number);
+    }
+  
+  
+
+    </script>
+</body>
+</html>
